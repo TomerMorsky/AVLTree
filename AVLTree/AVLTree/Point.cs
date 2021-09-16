@@ -16,23 +16,24 @@ namespace AVLTree
             Y = y;
         }
 
-        //check only the X field!!
+        //check only the X field!! - for the specific exercise
         public override bool Equals(object obj)
         {
             return obj is Point point &&
                    X == point.X;
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
+        //check only the X field!! - for the specific exercise
         public int CompareTo([AllowNull] Point other)
         {
             if (other == null) return 1;
 
             return this.X.CompareTo(other.X);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }
