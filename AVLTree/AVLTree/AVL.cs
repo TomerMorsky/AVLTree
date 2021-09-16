@@ -6,47 +6,86 @@ namespace AVLTree
 {
     public class AVL<T> where T : IComparable<T>
     {
-        Node<T> root;
-        public AVL()
-        {
-        }
+        #region Fields
+
+        private Node<T> root;
+
+        #endregion
+
+        #region C'tor
+
+        public AVL(){}
+
+        #endregion
+
+        #region Public methods
+
         public void Add(T data)
         {
             Node<T> newItem = new Node<T>(data);
             if (root == null)
-            {
                 root = newItem;
+            else
+                root = RecursiveInsert(root, newItem);
+        }
+       
+        public void Delete(T target)
+        {
+            root = Delete(root, target);
+        }
+
+        public void Find(T key)
+        {
+            if (Find(key, root).data.Equals(key))
+            {
+                Console.WriteLine("{0} was found!", key);
             }
             else
             {
-                root = RecursiveInsert(root, newItem);
+                Console.WriteLine("Nothing found!");
             }
         }
-        private Node<T> RecursiveInsert(Node<T> current, Node<T> n)
+
+        public void DisplayTree()
+        {
+            if (root == null)
+            {
+                Console.WriteLine("Tree is empty");
+                return;
+            }
+            InOrderDisplayTree(root);
+            Console.WriteLine();
+        }
+
+        #endregion
+
+        #region Private methods
+
+        private Node<T> RecursiveInsert(Node<T> current, Node<T> nodeToInsert)
         {
             if (current == null)
             {
-                current = n;
+                current = nodeToInsert;
                 return current;
             }
-            else if (n.data.CompareTo(current.data) < 0)
+            else if (nodeToInsert.data.CompareTo(current.data) < 0)
             {
-                current.left = RecursiveInsert(current.left, n);
-                current = balance_tree(current);
+                current.left = RecursiveInsert(current.left, nodeToInsert);
+                current = BalanceTree(current);
             }
-            else if (n.data.CompareTo(current.data) > 0)
+            else if (nodeToInsert.data.CompareTo(current.data) > 0)
             {
-                current.right = RecursiveInsert(current.right, n);
-                current = balance_tree(current);
+                current.right = RecursiveInsert(current.right, nodeToInsert);
+                current = BalanceTree(current);
             }
             return current;
         }
-        private Node<T> balance_tree(Node<T> current)
+        private Node<T> BalanceTree(Node<T> current)
         {
-            int b_factor = balance_factor(current);
-            if (b_factor > 1)
+            int balanceFactor = GetBalanceFactor(current);
+            if (balanceFactor > 1)
             {
-                if (balance_factor(current.left) > 0)
+                if (GetBalanceFactor(current.left) > 0)
                 {
                     current = RotateLL(current);
                 }
@@ -55,9 +94,9 @@ namespace AVLTree
                     current = RotateLR(current);
                 }
             }
-            else if (b_factor < -1)
+            else if (balanceFactor < -1)
             {
-                if (balance_factor(current.right) > 0)
+                if (GetBalanceFactor(current.right) > 0)
                 {
                     current = RotateRL(current);
                 }
@@ -68,10 +107,7 @@ namespace AVLTree
             }
             return current;
         }
-        public void Delete(T target)
-        {
-            root = Delete(root, target);
-        }
+
         private Node<T> Delete(Node<T> current, T target)
         {
             Node<T> parent;
@@ -83,9 +119,9 @@ namespace AVLTree
                 if (target.CompareTo(current.data) < 0)
                 {
                     current.left = Delete(current.left, target);
-                    if (balance_factor(current) == -2)//here
+                    if (GetBalanceFactor(current) == -2)//here
                     {
-                        if (balance_factor(current.right) <= 0)
+                        if (GetBalanceFactor(current.right) <= 0)
                         {
                             current = RotateRR(current);
                         }
@@ -99,9 +135,9 @@ namespace AVLTree
                 else if (target.CompareTo(current.data) > 0)
                 {
                     current.right = Delete(current.right, target);
-                    if (balance_factor(current) == 2)
+                    if (GetBalanceFactor(current) == 2)
                     {
-                        if (balance_factor(current.left) >= 0)
+                        if (GetBalanceFactor(current.left) >= 0)
                         {
                             current = RotateLL(current);
                         }
@@ -124,9 +160,9 @@ namespace AVLTree
                         }
                         current.data = parent.data;
                         current.right = Delete(current.right, parent.data);
-                        if (balance_factor(current) == 2)//rebalancing
+                        if (GetBalanceFactor(current) == 2)//rebalancing
                         {
-                            if (balance_factor(current.left) >= 0)
+                            if (GetBalanceFactor(current.left) >= 0)
                             {
                                 current = RotateLL(current);
                             }
@@ -141,17 +177,7 @@ namespace AVLTree
             }
             return current;
         }
-        public void Find(T key)
-        {
-            if (Find(key, root).data.Equals(key))
-            {
-                Console.WriteLine("{0} was found!", key);
-            }
-            else
-            {
-                Console.WriteLine("Nothing found!");
-            }
-        }
+        
         private Node<T> Find(T target, Node<T> current)
         {
 
@@ -175,16 +201,7 @@ namespace AVLTree
             }
 
         }
-        public void DisplayTree()
-        {
-            if (root == null)
-            {
-                Console.WriteLine("Tree is empty");
-                return;
-            }
-            InOrderDisplayTree(root);
-            Console.WriteLine();
-        }
+       
         private void InOrderDisplayTree(Node<T> current)
         {
             if (current != null)
@@ -194,25 +211,25 @@ namespace AVLTree
                 InOrderDisplayTree(current.right);
             }
         }
-        private int getHeight(Node<T> current)
+        private int GetHeight(Node<T> current)
         {
             int height = 0;
             if (current != null)
             {
-                int l = getHeight(current.left);
-                int r = getHeight(current.right);
-                int m = Math.Max(l, r);
+                int leftHeight = GetHeight(current.left);
+                int rightHeight = GetHeight(current.right);
+                int maxHeight = Math.Max(leftHeight, rightHeight);
 
-                height = m + 1;
+                height = maxHeight + 1;
             }
             return height;
         }
-        private int balance_factor(Node<T> current)
+        private int GetBalanceFactor(Node<T> current)
         {
-            int l = getHeight(current.left);
-            int r = getHeight(current.right);
-            int b_factor = l - r;
-            return b_factor;
+            int leftHeight = GetHeight(current.left);
+            int rightHeight = GetHeight(current.right);
+            int balanceFactor = leftHeight - rightHeight;
+            return balanceFactor;
         }
         private Node<T> RotateRR(Node<T> parent)
         {
@@ -240,5 +257,7 @@ namespace AVLTree
             parent.right = RotateLL(pivot);
             return RotateRR(parent);
         }
+
+        #endregion
     }
 }
