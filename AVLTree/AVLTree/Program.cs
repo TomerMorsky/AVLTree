@@ -6,11 +6,12 @@ namespace AVLTree
     {
         static void Main(string[] args)
         {
-            AVL<int> tree = new AVL<int>();
-            tree.Add(5);
-            tree.Add(3);
-            tree.Add(7);
-            tree.Add(2);
+            AVL<Point> tree = new AVL<Point>();
+
+            tree.Add(new Point(5,0));
+            tree.Add(new Point(3, 0));
+            tree.Add(new Point(7, 0));
+            tree.Add(new Point(2, 0));
         
             tree.DisplayTree();
             Console.WriteLine("Hello World!");
