@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace AVLTree
 {
-    public class Point : IComparable
+    public class Point : IComparable<Point>
     {
         public double X { get; set; }
         public double Y { get; set; }
@@ -13,18 +14,6 @@ namespace AVLTree
         {
             X = x;
             Y = y;
-        }
-
-        //Compare just the X field!!
-        public int CompareTo(object obj)
-        {
-            if (obj == null) return 1;
-
-            Point otherPoint = obj as Point;
-            if (otherPoint != null)
-                return this.X.CompareTo(otherPoint.X);
-            else
-                throw new ArgumentException("Object is not a Temperature");
         }
 
         //check only the X field!!
@@ -37,6 +26,13 @@ namespace AVLTree
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public int CompareTo([AllowNull] Point other)
+        {
+            if (other == null) return 1;
+
+            return this.X.CompareTo(other.X);
         }
     }
 }

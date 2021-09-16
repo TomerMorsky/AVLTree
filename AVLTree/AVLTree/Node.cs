@@ -14,12 +14,4 @@ namespace AVLTree
             this.data = data;
         }
     }
-
-/*  for the compareto
-      a.compareTo(b) < 0 // a < b
-
-      a.compareTo(b) > 0 // a > b
-
-      a.compareTo(b) == 0 // a == b
-*/
 }
