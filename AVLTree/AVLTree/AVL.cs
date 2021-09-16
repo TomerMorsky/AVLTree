@@ -194,10 +194,6 @@ namespace AVLTree
                 InOrderDisplayTree(current.right);
             }
         }
-        private int max(int l, int r)
-        {
-            return l > r ? l : r;
-        }
         private int getHeight(Node<T> current)
         {
             int height = 0;
@@ -205,7 +201,8 @@ namespace AVLTree
             {
                 int l = getHeight(current.left);
                 int r = getHeight(current.right);
-                int m = max(l, r);
+                int m = Math.Max(l, r);
+
                 height = m + 1;
             }
             return height;
