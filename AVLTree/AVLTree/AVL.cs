@@ -119,7 +119,7 @@ namespace AVLTree
                 if (target.CompareTo(current.data) < 0)
                 {
                     current.left = Delete(current.left, target);
-                    if (GetBalanceFactor(current) == -2)//here
+                    if (GetBalanceFactor(current) == -2)
                     {
                         if (GetBalanceFactor(current.right) <= 0)
                         {
