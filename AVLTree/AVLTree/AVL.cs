@@ -34,7 +34,7 @@ namespace AVLTree
                 current.left = RecursiveInsert(current.left, n);
                 current = balance_tree(current);
             }
-            else if (n.data.CompareTo(current.data) < 0)
+            else if (n.data.CompareTo(current.data) > 0)
             {
                 current.right = RecursiveInsert(current.right, n);
                 current = balance_tree(current);
