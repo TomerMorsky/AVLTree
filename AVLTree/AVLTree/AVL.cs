@@ -29,12 +29,12 @@ namespace AVLTree
                 current = n;
                 return current;
             }
-            else if (n.data < current.data)
+            else if (n.data.CompareTo(current.data) < 0)
             {
                 current.left = RecursiveInsert(current.left, n);
                 current = balance_tree(current);
             }
-            else if (n.data > current.data)
+            else if (n.data.CompareTo(current.data) < 0)
             {
                 current.right = RecursiveInsert(current.right, n);
                 current = balance_tree(current);
@@ -69,7 +69,7 @@ namespace AVLTree
             return current;
         }
         public void Delete(T target)
-        {//and here
+        {
             root = Delete(root, target);
         }
         private Node<T> Delete(Node<T> current, T target)
@@ -155,7 +155,7 @@ namespace AVLTree
         private Node<T> Find(T target, Node<T> current)
         {
 
-            if (target.CompareTo(current.data) < 0)// targer.compareto(current.date) < 0
+            if (target.CompareTo(current.data) < 0)
             {
                 if (target.Equals(current.data))
                 {
