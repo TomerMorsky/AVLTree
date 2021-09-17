@@ -6,6 +6,7 @@ namespace AVLTree
     {
         static void Main(string[] args)
         {
+            //EX1
             AVL<Point> tree = new AVL<Point>();
             var ramdomPoints = GetRandomPointsArray(0, 100, 20);
 
@@ -15,6 +16,11 @@ namespace AVLTree
                 tree.Add(ramdomPoints[i]); 
 
             tree.DisplayTree();
+
+
+            //EX2
+            var stamNumber = 28.32;
+            NearestRightPoint.GetNearestRightPoint(tree.Root, stamNumber);
         }
 
         private static Point[] GetRandomPointsArray(double minimum, double maximum, int amountOfPoints)
@@ -31,5 +37,7 @@ namespace AVLTree
 
             return randomPoints;
         }
+
+        
     }
 }
