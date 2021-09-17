@@ -28,7 +28,7 @@ namespace AVLTree
         {
             if (other == null) return 1;
 
-            return this.X.CompareTo(other.X);
+            return X.CompareTo(other.X);
         }
 
         public override int GetHashCode()
