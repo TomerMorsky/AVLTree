@@ -8,7 +8,7 @@ namespace AVLTree
     {
         #region Fields
 
-        private Node<T> root;
+        public Node<T> Root { get; set; }
 
         #endregion
 
@@ -23,20 +23,20 @@ namespace AVLTree
         public void Add(T data)
         {
             Node<T> newItem = new Node<T>(data);
-            if (root == null)
-                root = newItem;
+            if (Root == null)
+                Root = newItem;
             else
-                root = RecursiveInsert(root, newItem);
+                Root = RecursiveInsert(Root, newItem);
         }
        
         public void Delete(T target)
         {
-            root = Delete(root, target);
+            Root = Delete(Root, target);
         }
 
         public void Find(T key)
         {
-            if (Find(key, root).data.Equals(key))
+            if (Find(key, Root).data.Equals(key))
             {
                 Console.WriteLine("{0} was found!", key);
             }
@@ -48,12 +48,12 @@ namespace AVLTree
 
         public void DisplayTree()
         {
-            if (root == null)
+            if (Root == null)
             {
                 Console.WriteLine("Tree is empty");
                 return;
             }
-            InOrderDisplayTree(root);
+            InOrderDisplayTree(Root);
             Console.WriteLine();
         }
 
