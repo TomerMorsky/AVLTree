@@ -24,7 +24,7 @@ namespace AVLTree
         }
 
         //check only the X field!! - for the specific exercise
-        public int CompareTo([AllowNull] Point other)
+        public int CompareTo(Point other)
         {
             if (other == null) return 1;
 
@@ -34,6 +34,11 @@ namespace AVLTree
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return string.Format("({0} , {1})", X, Y);
         }
     }
 }

@@ -13,5 +13,9 @@ namespace AVLTree
         {
             this.data = data;
         }
+        public override string ToString()
+        {
+            return data.ToString();
+        }
     }
 }
