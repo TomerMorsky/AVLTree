@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AVLTree
 {
-    public class AVL<T> where T : IComparable<T>
+    public class AvlTree<T> where T : IComparable<T>
     {
         #region Fields
 
@@ -14,7 +14,7 @@ namespace AVLTree
 
         #region C'tor
 
-        public AVL(){}
+        public AvlTree(){}
 
         #endregion
 
@@ -27,23 +27,6 @@ namespace AVLTree
                 Root = newItem;
             else
                 Root = RecursiveInsert(Root, newItem);
-        }
-       
-        public void Delete(T target)
-        {
-            Root = Delete(Root, target);
-        }
-
-        public void Find(T key)
-        {
-            if (Find(key, Root).data.Equals(key))
-            {
-                Console.WriteLine("{0} was found!", key);
-            }
-            else
-            {
-                Console.WriteLine("Nothing found!");
-            }
         }
 
         public void DisplayTree()
@@ -107,101 +90,7 @@ namespace AVLTree
             }
             return current;
         }
-
-        private Node<T> Delete(Node<T> current, T target)
-        {
-            Node<T> parent;
-            if (current == null)
-            { return null; }
-            else
-            {
-                //left subtree
-                if (target.CompareTo(current.data) < 0)
-                {
-                    current.left = Delete(current.left, target);
-                    if (GetBalanceFactor(current) == -2)
-                    {
-                        if (GetBalanceFactor(current.right) <= 0)
-                        {
-                            current = RotateRR(current);
-                        }
-                        else
-                        {
-                            current = RotateRL(current);
-                        }
-                    }
-                }
-                //right subtree
-                else if (target.CompareTo(current.data) > 0)
-                {
-                    current.right = Delete(current.right, target);
-                    if (GetBalanceFactor(current) == 2)
-                    {
-                        if (GetBalanceFactor(current.left) >= 0)
-                        {
-                            current = RotateLL(current);
-                        }
-                        else
-                        {
-                            current = RotateLR(current);
-                        }
-                    }
-                }
-                //if target is found
-                else
-                {
-                    if (current.right != null)
-                    {
-                        //delete its inorder successor
-                        parent = current.right;
-                        while (parent.left != null)
-                        {
-                            parent = parent.left;
-                        }
-                        current.data = parent.data;
-                        current.right = Delete(current.right, parent.data);
-                        if (GetBalanceFactor(current) == 2)//rebalancing
-                        {
-                            if (GetBalanceFactor(current.left) >= 0)
-                            {
-                                current = RotateLL(current);
-                            }
-                            else { current = RotateLR(current); }
-                        }
-                    }
-                    else
-                    {   //if current.left != null
-                        return current.left;
-                    }
-                }
-            }
-            return current;
-        }
         
-        private Node<T> Find(T target, Node<T> current)
-        {
-
-            if (target.CompareTo(current.data) < 0)
-            {
-                if (target.Equals(current.data))
-                {
-                    return current;
-                }
-                else
-                    return Find(target, current.left);
-            }
-            else
-            {
-                if (target.Equals(current.data))
-                {
-                    return current;
-                }
-                else
-                    return Find(target, current.right);
-            }
-
-        }
-       
         private void InOrderDisplayTree(Node<T> current)
         {
             if (current != null)

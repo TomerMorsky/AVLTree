@@ -7,20 +7,32 @@ namespace AVLTree
         static void Main(string[] args)
         {
             //EX1
-            AVL<Point> tree = new AVL<Point>();
+            AvlTree<Point> tree = BuildTree();
+
+            tree.DisplayTree();
+
+            //EX2
+            Console.WriteLine("Enter the x0 value: ");
+            double inputNumber = double.Parse(Console.ReadLine());
+
+            var point = NearestRightPointManager.NearestRightPoint(tree.Root, inputNumber);
+
+            Console.WriteLine("The nearest right value is " + point.ToString());
+            Console.ReadLine();
+        }
+
+        public static AvlTree<Point> BuildTree()
+        {
+            AvlTree<Point> tree = new AvlTree<Point>();
+
             var ramdomPoints = GetRandomPointsArray(0, 100, 20);
 
             // Will get into the tree by the X cordinate
             // (Point is an IComparable and it compared to other points by its X)
             for (int i = 0; i < ramdomPoints.Length; i++)
-                tree.Add(ramdomPoints[i]); 
+                tree.Add(ramdomPoints[i]);
 
-            tree.DisplayTree();
-
-
-            //EX2
-            var stamNumber = 28.32;
-            NearestRightPoint.GetNearestRightPoint(tree.Root, stamNumber);
+            return tree;
         }
 
         private static Point[] GetRandomPointsArray(double minimum, double maximum, int amountOfPoints)
@@ -30,14 +42,13 @@ namespace AVLTree
 
             for (int i = 0; i < amountOfPoints; i++)
             {
-                var x = random.NextDouble() * (maximum - minimum) + minimum;
-                var y = random.NextDouble() * (maximum - minimum) + minimum;
+                var x = (int)(random.NextDouble() * (maximum - minimum) + minimum);
+                var y = (int)(random.NextDouble() * (maximum - minimum) + minimum);
                 randomPoints[i] = new Point(x, y);
             }
 
             return randomPoints;
         }
 
-        
     }
 }
